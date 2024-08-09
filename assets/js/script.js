@@ -28,7 +28,7 @@ const quizQuestions = [
             b: "JavaSource",
             c: "JustScript"
         },
-        correctAnswer: "b"
+        correctAnswer: "a"
     }
 ];
 
@@ -45,7 +45,7 @@ function buildQuiz() {
         for (let letter in currentQuestion.answers) {
             answers += `
                 <label>
-                    <input type="radio" name="question#${questionNumber}" value="${letter}">
+                    <input type="radio" name="question${questionNumber}" value="${letter}">
                     ${letter} : ${currentQuestion.answers[letter]}
                 </label><br>
             `;
@@ -71,8 +71,8 @@ function showResults() {
         const selector = `input[name=question${questionNumber}]:checked`;
         const userAnswer = (answerContainer.querySelector(selector) || {}).value;
 
-        if (userAnswer === quizQuestions[questionNumber].correctAnswer) {
-            numCorrect + 1;
+        if (userAnswer == quizQuestions[questionNumber].correctAnswer) {
+            numCorrect ++;
             answerContainers[questionNumber].style.color = 'lightgreen';
         } else {
             answerContainers[questionNumber].style.color = 'red';
@@ -80,6 +80,20 @@ function showResults() {
     }
 
     resultsContainer.innerHTML = `${numCorrect} out of ${quizQuestions.length}`;
+
+    submitButton.innerHTML = 'Try Again';
+    submitButton.removeEventListener('click', showResults);
+    submitButton.addEventListener('click', resetQuiz); // NTS: Remove this for challenge
+}
+
+function resetQuiz() {
+    resultsContainer.innerHTML = '';
+
+    buildQuiz();
+
+    submitButton.innerHTML = 'Submit Quiz';
+    submitButton.removeEventListener('click', resetQuiz);
+    submitButton.addEventListener('click', showResults);
 }
 
 buildQuiz();
