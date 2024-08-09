@@ -36,29 +36,26 @@ const quizQuestions = [
  * Builds the quiz by generating HTML for each question and its answers.
  */
 function buildQuiz() {
-    const output = [];
+    let output = '';
 
-    quizQuestions.forEach((currentQuestion, questionNumber) => {
-        const answers = [];
+    for (let questionNumber = 0; questionNumber < quizQuestions.length; questionNumber++) {
+        let currentQuestion = quizQuestions[questionNumber];
+        let answers = '';
 
-        for (letter in currentQuestion.answers) {
-            answers.push(
-                `<label>
+        for (let letter in currentQuestion.answers) {
+            answers += `
+                <label>
                     <input type="radio" name="question${questionNumber}" value="${letter}">
-                    ${letter} :
-                    ${currentQuestion.answers[letter]}
-                </label>
-                <br>`
-            );
+                    ${letter} : ${currentQuestion.answers[letter]}
+                </label><br>
+            `;
         }
 
-        output.push(
-            `<h2 class="h5 mt-4"> ${currentQuestion.question} </h2>
-            <div class="answers"> ${answers.join('')} </div>`
-        );
-    });
+        output += '<h2 class="h5 mt-4">' + currentQuestion.question + '</h2>';
+        output += '<div class="answers">' + answers + '</div>';
+    }
 
-    quizContainer.innerHTML = output.join('');
+    quizContainer.innerHTML = output;
 }
 
 /**
@@ -69,18 +66,18 @@ function showResults() {
 
     let numCorrect = 0;
 
-    quizQuestions.forEach((currentQuestion, questionNumber) => {
+    for (let questionNumber = 0; questionNumber < quizQuestions.length; questionNumber++) {
         const answerContainer = answerContainers[questionNumber];
         const selector = `input[name=question${questionNumber}]:checked`;
         const userAnswer = (answerContainer.querySelector(selector) || {}).value;
 
-        if (userAnswer === currentQuestion.correctAnswer) {
+        if (userAnswer === quizQuestions[questionNumber].correctAnswer) {
             numCorrect++;
             answerContainers[questionNumber].style.color = 'lightgreen';
         } else {
             answerContainers[questionNumber].style.color = 'red';
         }
-    });
+    }
 
     resultsContainer.innerHTML = `${numCorrect} out of ${quizQuestions.length}`;
 }
