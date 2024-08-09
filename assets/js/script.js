@@ -43,7 +43,7 @@ function buildQuiz() {
         let answers = '';
 
         for (let letter in currentQuestion.answers) {
-            answers = `
+            answers += `
                 <label>
                     <input type="radio" name="question#${questionNumber}" value="${letter}">
                     ${letter} : ${currentQuestion.answers[letter]}
