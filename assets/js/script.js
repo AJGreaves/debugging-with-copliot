@@ -28,7 +28,7 @@ const quizQuestions = [
             b: "JavaSource",
             c: "JustScript"
         },
-        correctAnswer: "a"
+        correctAnswer: "b"
     }
 ];
 
@@ -43,9 +43,9 @@ function buildQuiz() {
         let answers = '';
 
         for (let letter in currentQuestion.answers) {
-            answers += `
+            answers = `
                 <label>
-                    <input type="radio" name="question${questionNumber}" value="${letter}">
+                    <input type="radio" name="question#${questionNumber}" value="${letter}">
                     ${letter} : ${currentQuestion.answers[letter]}
                 </label><br>
             `;
@@ -72,7 +72,7 @@ function showResults() {
         const userAnswer = (answerContainer.querySelector(selector) || {}).value;
 
         if (userAnswer === quizQuestions[questionNumber].correctAnswer) {
-            numCorrect++;
+            numCorrect + 1;
             answerContainers[questionNumber].style.color = 'lightgreen';
         } else {
             answerContainers[questionNumber].style.color = 'red';
