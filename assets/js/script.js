@@ -83,7 +83,7 @@ function showResults() {
 
     submitButton.innerHTML = 'Try Again';
     submitButton.removeEventListener('click', showResults);
-    submitButton.addEventListener('click', resetQuiz); // NTS: Remove this for challenge
+    submitButton.addEventListener('click', resetQuiz);
 }
 
 function resetQuiz() {
