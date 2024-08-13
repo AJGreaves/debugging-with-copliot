@@ -39,16 +39,18 @@ function buildQuiz() {
     let output = '';
 
     for (let questionNumber = 0; questionNumber < quizQuestions.length; questionNumber++) {
-        let currentQuestion = quizQuestions[questionNumber];
+        const currentQuestion = quizQuestions[questionNumber];
         let answers = '';
 
-        for (let letter in currentQuestion.answers) {
+        for (const letter in currentQuestion.answers) {
+            if (currentQuestion.answers.hasOwnProperty(letter)) {
             answers += `
                 <label>
-                    <input type="radio" name="question${questionNumber}" value="${letter}">
-                    ${letter} : ${currentQuestion.answers[letter]}
+                <input type="radio" name="question${questionNumber}" value="${letter}">
+                ${letter} : ${currentQuestion.answers[letter]}
                 </label><br>
             `;
+            }
         }
 
         output += '<h2 class="h5 mt-4">' + currentQuestion.question + '</h2>';
@@ -72,7 +74,7 @@ function showResults() {
         const userAnswer = (answerContainer.querySelector(selector) || {}).value;
 
         if (userAnswer == quizQuestions[questionNumber].correctAnswer) {
-            numCorrect ++;
+            numCorrect++;
             answerContainers[questionNumber].style.color = 'lightgreen';
         } else {
             answerContainers[questionNumber].style.color = 'red';
@@ -86,6 +88,9 @@ function showResults() {
     submitButton.addEventListener('click', resetQuiz);
 }
 
+/**
+ * Resets the quiz to its initial state.
+ */
 function resetQuiz() {
     resultsContainer.innerHTML = '';
 
@@ -97,5 +102,4 @@ function resetQuiz() {
 }
 
 buildQuiz();
-
 submitButton.addEventListener('click', showResults);
