@@ -39,10 +39,10 @@ function buildQuiz() {
     let output = '';
 
     for (let questionNumber = 0; questionNumber < quizQuestions.length; questionNumber++) {
-        const currentQuestion = quizQuestions[questionNumber];
+        let currentQuestion = quizQuestions[questionNumber];
         let answers = '';
 
-        for (const letter in currentQuestion.answers) {
+        for (let letter in currentQuestion.answers) {
             if (currentQuestion.answers.hasOwnProperty(letter)) {
             answers += `
                 <label>
@@ -73,9 +73,9 @@ function showResults() {
         const selector = `input[name=question${questionNumber}]:checked`;
         const userAnswer = (answerContainer.querySelector(selector) || {}).value;
 
-        if (userAnswer == quizQuestions[questionNumber].correctAnswer) {
+        if (userAnswer === quizQuestions[questionNumber].correctAnswer) {
             numCorrect++;
-            answerContainers[questionNumber].style.color = 'lightgreen';
+            answerContainers[questionNumber].style.color = 'blue';
         } else {
             answerContainers[questionNumber].style.color = 'red';
         }
@@ -102,4 +102,5 @@ function resetQuiz() {
 }
 
 buildQuiz();
+
 submitButton.addEventListener('click', showResults);
